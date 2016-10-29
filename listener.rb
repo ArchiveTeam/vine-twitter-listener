@@ -13,7 +13,7 @@ end
 client.user do |object|
   case object
   when Twitter::Tweet
-    Extractor.perform_async(object.text, object.uri.to_s, object.in_reply_to_tweet_id)
+    Extractor.perform_async(object.text, object.uri.to_s)
   when Twitter::DirectMessage
   when Twitter::Streaming::StallWarning
     $stderr.puts 'WARNING: received StallWarning'
