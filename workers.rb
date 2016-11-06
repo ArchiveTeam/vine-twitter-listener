@@ -1,6 +1,7 @@
 require 'analysand'
 require 'securerandom'
 require 'sidekiq'
+require 'time'
 
 require_relative 'expand_shortened'
 
@@ -13,7 +14,7 @@ class Extractor
   def perform(text, tweet_uri)
     tcos = get_tcos_from_tweet(text)
     expanded = expand_tcos(tcos).select { |url| url =~ /vine\.co/ }
-    $db.put!(SecureRandom.uuid, { urls: expanded, tweet_uri: tweet_uri })
+    $db.put!(SecureRandom.uuid, { urls: expanded, tweet_uri: tweet_uri, requested_at: Time.now.utc.iso8601 })
   end
 end
 
